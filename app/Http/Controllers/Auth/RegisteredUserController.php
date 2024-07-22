@@ -24,7 +24,7 @@ class RegisteredUserController extends Controller
     {
         $config = Configuration::query()->select('agreement')->first();
         $cities = City::all();
-        return view('auth.register')->with(compact( 'config', $cities));
+        return view('auth.register')->with(compact( 'config', 'cities'));
     }
 
     /**
