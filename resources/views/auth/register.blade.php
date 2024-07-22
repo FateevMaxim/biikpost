@@ -36,8 +36,12 @@
         <!-- City -->
         <div class="mt-4">
             <x-input-label for="city" :value="__('Город')" />
-            <x-text-input id="city" class="block mt-1 w-full border-2" type="text" name="city" :value="old('city')" placeholder="Gorod" required autocomplete="city" />
-            <x-input-error :messages="$errors->get('city')" class="mt-2" />
+            <select id="city" name="city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                <option value="Выберите город">Выберите город</option>
+                @foreach($cities as $city)
+                    <option value="{{ $city->title }}">{{ $city->title }}</option>
+                @endforeach
+            </select>
         </div>
 
         <!-- Password -->
