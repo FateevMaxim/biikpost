@@ -24,6 +24,7 @@ class User extends Authenticatable
         'city',
         'password',
         'code',
+        'branch'
     ];
 
     /**
@@ -44,4 +45,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function branchinfo()
+    {
+        return $this->belongsTo(Branch::class, 'branch', 'title');
+    }
 }

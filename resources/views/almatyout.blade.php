@@ -1,6 +1,11 @@
-@if(isset($config->address)) @section( 'chinaaddress', $config->address ) @endif
+@if(isset($config->address)) @section( 'chinaaddress', $china_address['address'] ) @endif
 @if(isset($config->title_text)) @section( 'title_text', $config->title_text ) @endif
 @if(isset($config->address_two)) @section( 'address_two', $config->address_two ) @endif
+@if(isset($china_address))
+    @section('china_address')
+        <img src="{{ asset('images/' . $china_address['picture'] . '.jpg') }}" alt="China">
+    @endsection
+@endif
 <x-app-layout>
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -15,7 +20,7 @@
 
                         <div class="min_height round_border p-4 relative">
                             <div>
-                                <h3 class="mt-0 p-4 text-2xl font-medium leading-tight text-primary">Пункт выдачи Алматы</h3>
+                                <h3 class="mt-0 p-4 text-2xl font-medium leading-tight text-primary">Пункт выдачи {{ $cityin }}</h3>
                             </div>
                             <form method="POST" action="{{ route('getinfo-product') }}" id="getInfoForm">
                                 <div class="w-full">
@@ -45,7 +50,7 @@
 
                                     <h4 class="mt-4">Дата регистрации в Китае</h4>
                                     <p><small id="to_china"></small></p>
-                                    <h4>Дата регистрации в Алматы</h4>
+                                    <h4>Дата регистрации - <span id="in_city"></span></h4>
                                     <p><small id="to_almaty"></small></p>
                                     <h4>Дата выдачи клиенту</h4>
                                     <p><small id="to_client"></small></p>
@@ -85,19 +90,26 @@
                                     track_code = $("#track_code").val();
                                     url = $form.attr( 'action' );
 
+                                $("#to_china").text(null);
+                                $("#to_almaty").text(null);
+                                $("#to_client").text(null);
+                                $("#in_city").text(null);
+                                $("#client_accept").text(null);
                                 /* отправляем данные методом POST */
                                 $.post( url, { track_code: track_code } )
                                  .done(function( data ) {
+                                     $("#trackcode").text(track_code);
                                      $("#surname").text(data[1].surname);
                                      $("#name").text(data[1].name);
                                      $("#login").text(data[1].login);
                                      $("#city").text(data[1].city);
-                                     $("#to_china").text(data[0].to_china);
-                                     $("#trackcode").text(track_code);
-                                     $("#to_almaty").text(data[0].to_almaty);
-                                     $("#to_client").text(data[0].to_client);
-                                     $("#client_accept").text(data[0].client_accept);
-
+                                      if(data[0] != null) {
+                                          $("#to_china").text(data[0].to_china);
+                                          $("#to_almaty").text(data[0].to_almaty);
+                                          $("#to_client").text(data[0].to_client);
+                                          $("#in_city").text(data[0].city);
+                                          $("#client_accept").text(data[0].client_accept);
+                                      }
                                      if (data[1].block === 'нет'){
                                          $("#unknown").css("display","block");
                                      }else if(data[1].block != null){

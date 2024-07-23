@@ -1,6 +1,6 @@
 <x-guest-layout>
     @if(session()->has('error'))
-        <div id="alert-2" class="flex mr-6 ml-6 p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+        <div id="alert-2" class="flex mr-6 ml-6 p-4 mb-4 text-red-800 rounded-lg bg-red-50" role="alert">
             <div class="ml-3 text-sm font-medium">
                 {{ session()->get('error') }}
             </div>
@@ -36,12 +36,23 @@
         <!-- City -->
         <div class="mt-4">
             <x-input-label for="city" :value="__('Город')" />
-            <select id="city" name="city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <select id="branch" name="branch" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option value="Выберите город">Выберите город</option>
-                @foreach($cities as $city)
-                    <option value="{{ $city->title }}">{{ $city->title }}</option>
+                @foreach($branches as $branch)
+                    <option value="{{ $branch->title }}">{{ $branch->title }}</option>
                 @endforeach
             </select>
+            @if ($errors->has('branch'))
+                <div id="alert-2" class="flex mr-6 ml-6 mt-4 p-4 mb-4 text-red-800 rounded-lg bg-red-50" role="alert">
+                    <div class="ml-3 text-sm font-medium">
+                        {{ $errors->first('branch') }}
+                    </div>
+                    <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-2" aria-label="Close">
+                        <span class="sr-only">Закрыть</span>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    </button>
+                </div>
+            @endif
         </div>
 
         <!-- Password -->

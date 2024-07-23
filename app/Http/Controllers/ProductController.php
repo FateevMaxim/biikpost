@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
 use App\Imports\TracksImport;
 use App\Models\ClientTrackList;
 use App\Models\Configuration;
@@ -40,16 +41,36 @@ class ProductController extends Controller
 
         $array =  preg_split("/\s+/", $request["track_codes"]);
         $wordsFromFile = [];
+        $city = null;
+
+        if (Auth::user()->type === 'shimkentin'){
+            $city_value = 'Получено на складе в Шымкенте';
+            $city = 'Шымкент';
+        }elseif (Auth::user()->type === 'aktobein'){
+            $city_value = 'Получено на складе в Ақтобе';
+            $city = 'Ақтобе';
+        }elseif (Auth::user()->type === 'aktauin'){
+            $city_value = 'Получено на складе в Актау';
+            $city = 'Актау';
+        }elseif (Auth::user()->type === 'tarazin'){
+            $city_value = 'Получено на складе в Таразе';
+            $city = 'Тараз';
+        }elseif (Auth::user()->type === 'pavlodarin'){
+            $city_value = 'Получено на складе в Павлодаре';
+            $city = 'Павлодар';
+        }
+
         foreach ($array as $ar){
             $wordsFromFile[] = [
                 'track_code' => $ar,
                 'to_almaty' => date(now()),
-                'status' => 'Получено на складе в Шымкенте',
+                'status' => $city_value,
                 'reg_almaty' => 1,
+                'city' => $city,
                 'updated_at' => date(now()),
             ];
         }
-        TrackList::upsert($wordsFromFile, ['track_code', 'to_almaty', 'status', 'reg_almaty', 'updated_at']);
+        TrackList::upsert($wordsFromFile, ['track_code', 'to_almaty', 'status', 'reg_almaty', 'city', 'updated_at']);
         return redirect()->back()->with('message', 'Трек код успешно добавлен');
 
     }
@@ -93,7 +114,7 @@ class ProductController extends Controller
     {
 
         $track_code = ClientTrackList::query()->select('user_id')->where('track_code', $request['track_code'])->first();
-        $track_code_statuses =  TrackList::query()->select('to_china', 'to_almaty', 'to_client', 'client_accept')->where('track_code', $request['track_code'])->first();
+        $track_code_statuses =  TrackList::query()->select('to_china', 'to_almaty', 'to_client', 'client_accept', 'city')->where('track_code', $request['track_code'])->first();
         if ($track_code){
             $user_data = User::query()->select('name', 'surname', 'login', 'city', 'block')->where('id', $track_code->user_id)->first();
         }else{
@@ -182,6 +203,10 @@ class ProductController extends Controller
         return back();
     }
 
+    public function fileExport(Request $request)
+    {
+        return Excel::download(new UsersExport($request['date'], $request['city']), 'users.xlsx');
+    }
     public function result ()
     {
 

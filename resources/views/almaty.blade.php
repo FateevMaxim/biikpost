@@ -1,6 +1,11 @@
-@if(isset($config->address)) @section( 'chinaaddress', $config->address ) @endif
+@if(isset($config->address)) @section( 'chinaaddress', $china_address['address'] ) @endif
 @if(isset($config->title_text)) @section( 'title_text', $config->title_text ) @endif
 @if(isset($config->address_two)) @section( 'address_two', $config->address_two ) @endif
+@if(isset($china_address))
+    @section('china_address')
+        <img src="{{ asset('images/' . $china_address['picture'] . '.jpg') }}" alt="China">
+    @endsection
+@endif
 <x-app-layout>
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -9,7 +14,7 @@
 
                         <div class="min_height round_border p-4 relative">
                             <div>
-                                <h3 class="mt-0 p-4 text-2xl font-medium leading-tight text-primary">Пункт приёма в Алматы</h3>
+                                <h3 class="mt-0 p-4 text-2xl font-medium leading-tight text-primary">Пункт приёма в {{ $cityin }}</h3>
                             </div>
                             <div class="absolute p-4 bottom-0">
                                 <span>Количество зарегистрированных трек кодов за сегодня</span>

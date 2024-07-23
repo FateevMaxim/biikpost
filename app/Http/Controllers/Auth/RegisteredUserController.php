@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\City;
+use App\Models\Branch;
 use App\Models\Configuration;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -23,8 +23,8 @@ class RegisteredUserController extends Controller
     public function create(): View
     {
         $config = Configuration::query()->select('agreement')->first();
-        $cities = City::all();
-        return view('auth.register')->with(compact( 'config', 'cities'));
+        $branches = Branch::all();
+        return view('auth.register')->with(compact( 'config', 'branches'));
     }
 
     /**
@@ -38,7 +38,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'checkbox' => ['required'],
             'surname' => ['required', 'string', 'max:255'],
-            'city' => ['required', 'string', 'max:255'],
+            'branch' => ['required', 'string', 'max:255', 'not_in:Выберите город'],
             'login' => ['required', 'string', 'max:16', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -47,11 +47,11 @@ class RegisteredUserController extends Controller
             return redirect()->back()->with('error', 'Неверный номер, пожалуйста, перепроверьте');
         }
 
-
         $user = User::create([
             'name' => $request->name,
             'surname' => $request->surname,
-            'city' => $request->city,
+            'city' => $request->branch,
+            'branch' => $request->branch,
             'login' => $request->login,
             'password' => $request->password,
         ]);
