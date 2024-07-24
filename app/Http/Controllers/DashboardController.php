@@ -79,7 +79,19 @@ class DashboardController extends Controller
             return view('othercity')->with(compact('count', 'config', 'qrChina', 'china_address'));
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'admin' || Auth::user()->is_active === 1 && Auth::user()->type === 'moderator'){
             $search_phrase = '';
-            $users = User::query()->select('id', 'name', 'surname', 'type', 'login', 'city', 'is_active', 'block', 'password', 'created_at')->where('type', null)->where('is_active', false)->get();
+            if (Auth::user()->city){
+                $users = User::query()
+                    ->select('id', 'name', 'surname', 'type', 'login', 'city', 'is_active', 'block', 'password', 'created_at')
+                    ->where('type', null)
+                    ->where('city', Auth::user()->city)
+                    ->where('is_active', false)->get();
+            }else{
+                $users = User::query()
+                    ->select('id', 'name', 'surname', 'type', 'login', 'city', 'is_active', 'block', 'password', 'created_at')
+                    ->where('type', null)
+                    ->where('is_active', false)
+                    ->get();
+            }
             return view('admin')->with(compact('users', 'messages', 'search_phrase', 'config', 'china_address'));
         }
         $branch = Branch::query()->select('whats_app', 'address')->where('title', auth()->user()->branch)->first();
