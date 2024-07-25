@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Branch;
 use App\Models\Configuration;
 use App\Models\Message;
 use App\Models\User;
@@ -89,7 +90,18 @@ class ProfileController extends Controller
         $messages = Message::all();
         $search_phrase = $request->phone;
         $config = Configuration::query()->select('address')->first();
-        return view('admin')->with(compact('users', 'messages', 'search_phrase', 'config'));
+        $branch = Branch::query()->select('whats_app', 'address')->where('title', auth()->user()->branch)->first();
+        $china_address =  [
+            'address' => $config->address,
+            'picture' => 'chinashim'
+        ];
+        if (isset(Auth::user()->branchinfo->china_address)){
+            $china_address = [
+                'address' => $branch->address,
+                'picture' => Auth::user()->branchinfo->china_address,
+            ];
+        }
+        return view('admin')->with(compact('users', 'messages', 'search_phrase', 'config', 'china_address'));
     }
 
     public function accessClient (Request $request)
