@@ -67,6 +67,9 @@ class ProductController extends Controller
         }elseif (Auth::user()->type === 'almatyin'){
             $city_value = 'Получено на складе в Алматы';
             $city = 'Алматы';
+        }elseif (Auth::user()->type === 'turkestanin'){
+            $city_value = 'Получено на складе в Туркестане';
+            $city = 'Туркестан';
         }
 
         foreach ($array as $ar){
