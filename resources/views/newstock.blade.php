@@ -71,6 +71,13 @@
                         </div>
 
                         <script>
+                            $(document).ready(function(){
+                                document.getElementById("excel").disabled = true;
+                            });
+
+                            $("#date").change(function() {
+                                document.getElementById("excel").disabled = false;
+                            });
 
                             $("#excel").click(function() {
                                 date = $("#date").val();

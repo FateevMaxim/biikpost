@@ -188,6 +188,13 @@
     </div>
 </x-app-layout>
 <script type="text/javascript">
+    $(document).ready(function(){
+        document.getElementById("excel").disabled = true;
+    });
+
+    $("#date").change(function() {
+        document.getElementById("excel").disabled = false;
+    });
     $("#excel").click(function() {
         date = $("#date").val();
         $("#a").attr("href", 'file-export-china?date='+date)
