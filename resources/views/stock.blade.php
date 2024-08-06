@@ -40,6 +40,15 @@
                     <div>
                         <h3 class="mt-0 p-4 text-2xl font-medium leading-tight text-primary">Пункт приёма China</h3>
                     </div>
+                    <div class="">
+                        <div>
+                            <input type="date" id="date" name="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        </div>
+                        <div class="col-span-2">
+                            <a href="" id="a"><button type="button" id="excel" class="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Экспорт в Excel</button></a>
+                        </div>
+                    </div>
+
                     <div class="p-4">
                         <span>Количество зарегистрированных трек кодов за сегодня</span>
                         <h3 class="mt-0 text-2xl font-medium leading-tight text-primary">{{ $count }}</h3>
@@ -178,4 +187,10 @@
         </div>
     </div>
 </x-app-layout>
+<script type="text/javascript">
+    $("#excel").click(function() {
+        date = $("#date").val();
+        $("#a").attr("href", 'file-export-china?date='+date)
+    });
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>

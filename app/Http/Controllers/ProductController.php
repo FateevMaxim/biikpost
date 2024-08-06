@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ChinaExport;
 use App\Exports\UsersExport;
 use App\Imports\TracksImport;
 use App\Models\ClientTrackList;
@@ -218,6 +219,10 @@ class ProductController extends Controller
     public function fileExport(Request $request)
     {
         return Excel::download(new UsersExport($request['date'], $request['city']), 'users.xlsx');
+    }
+    public function fileExportChina(Request $request)
+    {
+        return Excel::download(new ChinaExport($request['date']), 'china-tracks.xlsx');
     }
     public function result ()
     {

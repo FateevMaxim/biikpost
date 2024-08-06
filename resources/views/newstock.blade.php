@@ -18,6 +18,15 @@
                                 </span>
                                 <h3>China</h3>
                             </div>
+                            <div class="">
+                                <div>
+                                    <input type="date" id="date" name="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                </div>
+                                <div class="col-span-2">
+                                    <a href="" id="a"><button type="button" id="excel" class="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Экспорт в Excel</button></a>
+                                </div>
+                            </div>
+
                             <div class="absolute p-4 bottom-0">
                                 <span>Количество зарегистрированных трек кодов за сегодня</span>
                                 <h3>{{ $count }}</h3>
@@ -62,6 +71,11 @@
                         </div>
 
                         <script>
+
+                            $("#excel").click(function() {
+                                date = $("#date").val();
+                                $("#a").attr("href", 'file-export-china?date='+date)
+                            });
 
                             let code = "";
                             var number = 1;
