@@ -71,6 +71,21 @@ class ProductController extends Controller
         }elseif (Auth::user()->type === 'turkestanin'){
             $city_value = 'Получено на складе в Туркестане';
             $city = 'Туркестан';
+        }elseif (Auth::user()->type === 'saryagashin'){
+            $city_value = 'Получено на складе в Сарыағаш';
+            $city = 'Сарыағаш';
+        }elseif (Auth::user()->type === 'atyrauin'){
+            $city_value = 'Получено на складе в Атырау';
+            $city = 'Атырау';
+        }elseif (Auth::user()->type === 'oskemenin'){
+            $city_value = 'Получено на складе в Өскемен';
+            $city = 'Өскемен';
+        }elseif (Auth::user()->type === 'karagandain'){
+            $city_value = 'Получено на складе в Қарағанды';
+            $city = 'Қарағанды';
+        }elseif (Auth::user()->type === 'oralin'){
+            $city_value = 'Получено на складе в Орал';
+            $city = 'Орал';
         }
 
         foreach ($array as $ar){
