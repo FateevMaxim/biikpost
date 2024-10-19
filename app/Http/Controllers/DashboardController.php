@@ -81,8 +81,8 @@ class DashboardController extends Controller
             $count = TrackList::query()->whereDate('to_almaty', Carbon::today())->where('status', 'Получено на складе в Сарыағаш')->count();
             return view('almaty', ['count' => $count, 'config' => $config, 'cityin' => 'Сарыағаш', 'qr' => $qrSaryagash, 'china_address' => $china_address]);
         }elseif (Auth::user()->type === 'atyrauin') {
-            $count = TrackList::query()->whereDate('to_almaty', Carbon::today())->where('status', 'Получено на складе в Атырау')->count();
-            return view('almaty', ['count' => $count, 'config' => $config, 'cityin' => 'Атырау', 'qr' => $qrAtyrau, 'china_address' => $china_address]);
+            $count = TrackList::query()->whereDate('to_almaty', Carbon::today())->where('status', 'Получено на складе в Семее')->count();
+            return view('almaty', ['count' => $count, 'config' => $config, 'cityin' => 'Семее', 'qr' => $qrAtyrau, 'china_address' => $china_address]);
         }elseif (Auth::user()->type === 'oskemenin') {
             $count = TrackList::query()->whereDate('to_almaty', Carbon::today())->where('status', 'Получено на складе в Өскемен')->count();
             return view('almaty', ['count' => $count, 'config' => $config, 'cityin' => 'Өскемен', 'qr' => $qrOskemen, 'china_address' => $china_address]);
@@ -123,8 +123,8 @@ class DashboardController extends Controller
             $count = TrackList::query()->whereDate('to_client', Carbon::today())->where('city', 'Сарыағаш')->count();
             return view('almatyout', ['count' => $count, 'config' => $config, 'cityin' => 'Сарыағаш', 'qr' => $qrSaryagash, 'china_address' => $china_address]);
         }elseif (Auth::user()->type === 'atyrauout') {
-            $count = TrackList::query()->whereDate('to_client', Carbon::today())->where('city', 'Атырау')->count();
-            return view('almatyout', ['count' => $count, 'config' => $config, 'cityin' => 'Атырау', 'qr' => $qrAtyrau, 'china_address' => $china_address]);
+            $count = TrackList::query()->whereDate('to_client', Carbon::today())->where('city', 'Семей')->count();
+            return view('almatyout', ['count' => $count, 'config' => $config, 'cityin' => 'Семей', 'qr' => $qrAtyrau, 'china_address' => $china_address]);
         }elseif (Auth::user()->type === 'oskemenout') {
             $count = TrackList::query()->whereDate('to_client', Carbon::today())->where('city', 'Өскемен')->count();
             return view('almatyout', ['count' => $count, 'config' => $config, 'cityin' => 'Өскемен', 'qr' => $qrOskemen, 'china_address' => $china_address]);
