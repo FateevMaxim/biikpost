@@ -54,8 +54,8 @@ class ProductController extends Controller
             $city_value = 'Получено на складе в Актау';
             $city = 'Актау';
         }elseif (Auth::user()->type === 'tarazin'){
-            $city_value = 'Получено на складе в Таразе';
-            $city = 'Тараз';
+            $city_value = 'Получено на складе в Экибастузе';
+            $city = 'Экибастуз';
         }elseif (Auth::user()->type === 'pavlodarin'){
             $city_value = 'Получено на складе в Павлодаре';
             $city = 'Павлодар';
