@@ -11,6 +11,7 @@ use App\Models\TrackList;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -34,10 +35,19 @@ class DashboardController extends Controller
         $messages = Message::all();
 
         if (Auth::user()->is_active === 1 && Auth::user()->type === null){
+            TrackList::whereNotNull('to_china')
+                ->whereNull('to_customs')
+                ->whereNull('to_almaty')
+                ->whereNull('to_client')
+                ->whereRaw('to_china <= NOW() - INTERVAL "3 2" DAY_HOUR')
+                ->update([
+                    'to_customs' => DB::raw('DATE_ADD(DATE_ADD(DATE_ADD(to_china, INTERVAL 3 DAY), INTERVAL 1 HOUR), INTERVAL 45 MINUTE)'),
+                    'status' => 'На таможне'
+                ]);
             $tracks = ClientTrackList::query()
                 ->leftJoin('track_lists', 'client_track_lists.track_code', '=', 'track_lists.track_code')
                 ->select( 'client_track_lists.track_code', 'client_track_lists.detail', 'client_track_lists.created_at',
-                    'track_lists.to_china','track_lists.to_almaty','track_lists.city','client_track_lists.id','track_lists.to_client','track_lists.client_accept','track_lists.status')
+                    'track_lists.to_china','track_lists.to_almaty','track_lists.city','client_track_lists.id','track_lists.to_client','track_lists.to_customs','track_lists.client_accept','track_lists.status')
                 ->where('client_track_lists.user_id', Auth::user()->id)
                 ->where('client_track_lists.status',null)
                 ->orderByDesc('client_track_lists.id')
@@ -164,7 +174,7 @@ class DashboardController extends Controller
         $tracks = ClientTrackList::query()
             ->leftJoin('track_lists', 'client_track_lists.track_code', '=', 'track_lists.track_code')
             ->select( 'client_track_lists.track_code', 'client_track_lists.detail', 'client_track_lists.created_at',
-                'track_lists.to_china','track_lists.to_almaty','track_lists.to_client', 'track_lists.city','track_lists.client_accept','track_lists.status')
+                'track_lists.to_china','track_lists.to_almaty','track_lists.to_client','track_lists.to_customs', 'track_lists.city','track_lists.client_accept','track_lists.status')
             ->where('client_track_lists.user_id', Auth::user()->id)
             ->where('client_track_lists.status', '=', 'archive')
             ->get();

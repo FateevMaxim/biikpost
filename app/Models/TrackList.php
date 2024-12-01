@@ -11,6 +11,7 @@ class TrackList extends Model
             'user_id',
             'track_code',
             'to_china',
+            'to_customs',
             'reg_china',
             'reg_almaty',
             'reg_client',
