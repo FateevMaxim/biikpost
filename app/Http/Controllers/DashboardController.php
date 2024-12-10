@@ -142,8 +142,8 @@ class DashboardController extends Controller
             $count = TrackList::query()->whereDate('to_client', Carbon::today())->where('city', 'Қарағанды')->count();
             return view('almatyout', ['count' => $count, 'config' => $config, 'cityin' => 'Қарағанды', 'qr' => $qrKaraganda, 'china_address' => $china_address]);
         }elseif (Auth::user()->type === 'oralout') {
-            $count = TrackList::query()->whereDate('to_client', Carbon::today())->where('city', 'Талыдкорган')->count();
-            return view('almatyout', ['count' => $count, 'config' => $config, 'cityin' => 'Талыдкорган', 'qr' => $qrOral, 'china_address' => $china_address]);
+            $count = TrackList::query()->whereDate('to_client', Carbon::today())->where('city', 'Талдыкорган')->count();
+            return view('almatyout', ['count' => $count, 'config' => $config, 'cityin' => 'Талдыкорган', 'qr' => $qrOral, 'china_address' => $china_address]);
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'othercity'){
             $count = TrackList::query()->whereDate('to_client', Carbon::today())->count();
             return view('othercity')->with(compact('count', 'config', 'qrChina', 'china_address'));
